@@ -37,6 +37,12 @@ class Order(models.Model):
 	customer=models.ForeignKey('Customer',blank=True,default='')
 	list_id_product=models.CharField(max_length=100)
 
+class TopMenu(models.Model):
+	name=models.CharField(max_length=100)
+	url=models.CharField(max_length=100)
+	def __unicode__(self):
+		return self.name
+
 
 
 

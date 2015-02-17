@@ -5,8 +5,10 @@ import settings
 
 urlpatterns = patterns('',
     # Examples:
-    url(r'^$', home),
-    url(r'^product/(?P<id>\d+)/$', full_info),
+    #url(r'^$', home),
+    url(r'^$', HomeView.as_view()),
+    url(r'^catalog/$',CatalogView.as_view()),
+    url(r'^catalog/(?P<id>\d+)/$', ProductDetailView.as_view()),
     #url(r'^ajax/loadcounter/$', load_Counter),
    # url(r'^ajax/playcounter/$', play_Counter),
     

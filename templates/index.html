@@ -6,17 +6,18 @@
             <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
           </p>
           <div class="jumbotron">
-            <h1>Hello, world!</h1>
-            <p>This is an example to show the potential of an offcanvas layout pattern in Bootstrap. Try some responsive-range viewport sizes to see it in action.</p>
+            <h2>ХАЯР - ОБУВЬ ИЗ НАТУРАЛЬНОГО МЕХА</h2>
+            <h3>Высшее качество, элитного продукта</h3>
+            <p> Данная обувь производится из меха северного оленя - камуса. Высшее качество натурального, теплого меха и правильно подобранные цвета - результат того, что вы можете увидеть на нашем сайте:)
+                Наша обувь прекрасно подойдет для ценителей натурального меха, а так же для любителей тепла в холодные времена года.
+                Чтобы узнать подробнее о нас и нашей продукции - перейдите в соответствующий раздел сайта:)
+                УЗНАТЬ БОЛЬШЕ
+          </p>
+
           </div>
           <div class="row">
 			{%for product in product_list%}
-                <div class="col-xs-6 col-lg-4">
-                  <h3>{{product.name}}</h3>
-                  <p>{{product.description}} </p>
-                  <p>Стоимость: {{product.price}} р.</p>
-                  <p><a class="btn btn-default" href="/product/{{product.id}}" role="button">View details &raquo;</a></p>
-                </div><!--/.col-xs-6.col-lg-4-->
+
               {%endfor%}
            </div>
         {%endblock%}

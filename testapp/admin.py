@@ -25,3 +25,7 @@ class ParamAdmin(admin.ModelAdmin):
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
 	list_display=['first_name','second_name']
+@admin.register(TopMenu)
+class TopMenuAdmin(admin.ModelAdmin):
+	list_display=['name','url']
+
