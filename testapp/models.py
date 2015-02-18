@@ -5,12 +5,14 @@ class Product(models.Model):
 	description=models.CharField(max_length=1000,default="description of the Product")
 	price=models.IntegerField(default=500)
 	date=models.DateTimeField(auto_now_add=True)
+	url=models.CharField(max_length=100,blank=True,default='')
 	subcategory=models.ForeignKey('SubCategory',blank=True,default='')
 	def __unicode__(self):
 		return self.name
 
 class Category(models.Model):
 	name=models.CharField(max_length=100,blank=True)
+	url=models.CharField(max_length=100,blank=True,default='')
 	def __unicode__(self):
 		return self.name
 

@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     url(r'^$', HomeView.as_view()),
     url(r'^catalog/$',CatalogView.as_view()),
     url(r'^catalog/(?P<id>\d+)/$', ProductDetailView.as_view()),
+    url(r'^catalog/(?P<filter>\w+)/$', CatalogCategoryView.as_view()),
     #url(r'^ajax/loadcounter/$', load_Counter),
    # url(r'^ajax/playcounter/$', play_Counter),
     
