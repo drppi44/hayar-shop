@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     url(r'^catalog/(?P<filter>\w+)/$', CatalogCategoryView.as_view()),
 
     url(r'^ajax/addtocart/$', add_to_cart),
+    url(r'^ajax/removefromcart/$', remove_from_cart),
    # url(r'^ajax/playcounter/$', play_Counter),
     
 	url(r'^admin/', include(admin.site.urls)),

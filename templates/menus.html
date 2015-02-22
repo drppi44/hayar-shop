@@ -4,15 +4,13 @@
         <ul class="nav navbar-nav">
           
           {%for item in topMenu_list%}
-            {%if item.active%}
-              <li class="active"><a href="/{{item.url}}">{{item.name}}</a></li>
-            {%else%}
-              <li><a href="/{{item.url}}">{{item.name}}</a></li>
-            {%endif%}
+              <li {%if item.active%} class="active" {%endif%}>
+                <a href="/{{item.url}}">{{item.name}}</a>
+              </li>
           {%endfor%}
         </ul>
             <ul class="nav navbar-nav navbar-right">
-              <li class=""><a href="/catalog/cart">Корзина <span class="sr-only">(current)</span></a></li>
+              <li {%if cart_active%} class="active" {%endif%}><a href="/catalog/cart">Корзина <span class="sr-only">(current)</span></a></li>
             </ul>
 {%endblock%}
 

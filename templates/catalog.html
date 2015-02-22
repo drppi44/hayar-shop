@@ -10,7 +10,7 @@
 			{%for product in product_list%}
                 <div class="col-xs-6 col-lg-4">
                   <h3>{{product.name}}</h3>
-                  <img src="\media\img\{{product.url}}" alt=""  height='150px'   class="small_img">
+                  <img src="{{product.url}}" alt=""  height='150px'   class="small_img">
                   <p>{{product.description}} </p>
                   <p>Стоимость: {{product.price}} р.</p>
                   <p><a class="btn btn-default" href="/catalog/{{product.id}}" role="button">View details &raquo;</a></p>

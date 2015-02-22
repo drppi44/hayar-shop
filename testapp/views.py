@@ -4,6 +4,7 @@ from django.shortcuts import render_to_response
 from django.http import HttpResponse
 from django.views.generic import View
 from models import *
+from cart import Cart
 
 #----------------------
 #Вьюшка для наследования
@@ -59,26 +60,36 @@ class MainView(View):
 		for i in range(len(self.render_dict['topMenu_list'])):
 			if self.render_dict['topMenu_list'][i].url=='catalog':
 				self.render_dict['topMenu_list'][i].active=True
+	def get_topMenu(self,param=None):
+		topMenu=TopMenu.objects.all()
+		print 123444444444444444444444444444444
+		if param:
+			for i in range(len(topMenu)):
+				if topMenu[i].url==param:
+					topMenu[i].active=True
+		return topMenu
 	def set_params_cart(self,request):
 		self.html='cart.html'
-		"""
-		id_count_list=[[item[0],item[2]] for item in request.session['cart']]
-		id_list=[item[0] for item in id_count_list]
-		product_list=Product.objects.filter(id__in=id_list)
-		for id,count in id_count_list:
-			for i in range(len(product_list)):
-				if product_list[i].id==id:
-					product_list[i].count=count
-		"""
-		cart_dict=request.session['cart']
+
+		cart=Cart(request)
+		cart_list=[]
+		for item in Item.objects.filter(cart=cart.cart):
+			product=item.product
+			quantity=item.quantity
+			item_price=item.item_price
+			total_price=item.total_price
+			cart_list.append({
+				"product":product,
+				"quantity":quantity,
+				"item_price":int(item_price),
+				"total_price":total_price,
+				})
 		self.render_dict={
-			'topMenu_list':TopMenu.objects.all(),
+			'topMenu_list':self.get_topMenu(),
 			'category_list':Category.objects.all(),
-			'cart_dict':cart_dict,
+			'cart_list':cart_list,
+			'cart_active':True,
 		}
-		for i in range(len(self.render_dict['topMenu_list'])):
-			if self.render_dict['topMenu_list'][i].url=='catalog':
-				self.render_dict['topMenu_list'][i].active=True
 
 class HomeView(MainView):
 	def get(self,request):
@@ -103,25 +114,13 @@ class CartView(MainView):
 
 def add_to_cart(request):
 	id=request.POST['id']
-	print id
-	#if not request.session.__contains__('cart'):
-	#	request.session.__setitem__('cart',{})
-	if not request.session['cart'].__contains__(id):
-		product=Product.objects.get(id=id)
-		request.session['cart'].__setitem__(id,{'price':product.price,'count':1})
-	else:
-		request.session['cart'][id]['count']+=1
-	request.session.modified = True
-	print request.session['cart']
 	product=Product.objects.get(id=id)
-
-	request.session[id]=A(1,product.price)
-	print request.session
-	print request.META['HTTP_REFERER']
-	
+	cart=Cart(request)
+	cart.add(product,product.price)
+	return HttpResponse()
+def remove_from_cart(request):
+	product=Product.objects.get(id=request.POST['id'])
+	cart=Cart(request)
+	cart.remove(product)
 	return HttpResponse()
 
-class A:
-	def __init__(self,count,price):
-		self.count=count
-		self.price=price

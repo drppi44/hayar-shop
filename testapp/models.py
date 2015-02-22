@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.contenttypes.models import ContentType
 
 class Product(models.Model):
 	name=models.CharField(max_length=100)
@@ -44,6 +45,29 @@ class TopMenu(models.Model):
 	url=models.CharField(max_length=100)
 	def __unicode__(self):
 		return self.name
+
+class Cart(models.Model):
+	date=models.DateTimeField(auto_now_add=True)
+	def __unicode__(self):
+		return unicode(self.date)
+
+class Item(models.Model):
+	cart=models.ForeignKey(Cart)
+	quantity=models.PositiveIntegerField()
+	item_price=models.DecimalField(max_digits=18,decimal_places=2)
+	product_id=models.PositiveIntegerField()
+	@property
+	def total_price(self):
+		return self.quantity*self.item_price
+	@property
+	def product(self):
+		return Product.objects.get(id=self.product_id)
+	@product.setter
+	def product(self,product_instance):
+		self.product_id=product_instance.id
+
+
+
 
 
 

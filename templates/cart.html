@@ -6,9 +6,27 @@
             <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
           </p>
           <div class="jumbotron">
-            {%for key,value in cart_dict%}
-            <p>{{cart_dict.1}}</p>
-            {%endfor%}
+            <table border="1" class="cart_table">
+              <tr>
+              <td><p>Фотография</p></td>
+              <td><p>Название</p></td>
+              <td><p>Количество</p></td>
+              <td><p>Цена</p></td>
+              <td></td>
+              </tr>
+              {%for product in cart_list%}
+               <tr>
+                  <td><img src="{{product.product.url}}" alt="" class="small_img" height="100px"></td>
+                  <td><p>{{product.product | lower}}</p></td>
+                  <td>
+                     <input type="text" value="{{product.quantity}}">
+                      <a href="" onClick="" onClick="")>Обновить</a>
+                  </td>
+                  <td><p>{{product.item_price}} р.</p></td>
+                  <td><a href="/catalog/cart" onClick="remove_from_cart({{product.product.id}})">Убрать</a>
+               </tr>
+              {%endfor%}
+            </table>
           </div>
           
     {%endblock%}

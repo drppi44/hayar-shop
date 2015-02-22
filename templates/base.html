@@ -46,6 +46,18 @@
               error:function(data){console.log('error');console.log(data);},
       })
     }
+    function remove_from_cart(id){
+      $.ajax({
+              url:'/ajax/removefromcart/',
+              type:"POST",
+              data:{
+                id:id,
+                //csrfmiddlewaretoken: csrftoken,
+              },
+              success:function(data){console.log('success');console.log(data);},
+              error:function(data){console.log('error');console.log(data);},
+      })
+    }
   </script>
 </head>
 <body>
