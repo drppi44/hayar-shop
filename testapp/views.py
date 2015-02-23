@@ -12,44 +12,45 @@ class MainView(View):
 	render_dict={}
 	html=''
 	#------------------
+	#Ф-я для задания содержимого Верхнего меню
+	def get_topMenu(self,param=None):
+		topMenu=TopMenu.objects.all()
+		if param!='cart':
+			for i in range(len(topMenu)):
+				if topMenu[i].url==param:
+					topMenu[i].active=True
+		return topMenu
+	#------------------------------------
 	#Ф-я для задания параметров Home страници
 	def set_params_home(self):
 		self.html='index.html'
 		self.render_dict={
-			'topMenu_list':TopMenu.objects.all(),
-			#'category_list':Category.objects.all(),
+			'topMenu_list':self.get_topMenu(''),
 		}
-		for i in range(len(self.render_dict['topMenu_list'])):
-			if self.render_dict['topMenu_list'][i].url=='':
-				self.render_dict['topMenu_list'][i].active=True
-	#------------------
+	#--------------------------------------------------
 	#Ф-я для задания параметров для страницы подробного описания выбраного товара
 	def set_params_productDetail(self,id):
 		self.html='item.html'
 		self.render_dict={
-			'topMenu_list':TopMenu.objects.all(),
+			'topMenu_list':self.get_topMenu('catalog'),
 			'category_list':Category.objects.all(),
 			'product':Product.objects.get(id=id),
 		}
-		for i in range(len(self.render_dict['topMenu_list'])):
-			if self.render_dict['topMenu_list'][i].url=='catalog':
-				self.render_dict['topMenu_list'][i].active=True
+	#--------------------------------------------------
+	#Ф-я для задания параметров для страницы каталога товаров
 	def set_params_catalog(self):
 		self.html='catalog.html'
 		self.render_dict={
-			'topMenu_list':TopMenu.objects.all(),
+			'topMenu_list':self.get_topMenu('catalog'),
 			'category_list':Category.objects.all(),
 			'product_list':Product.objects.all(),
 		}
-		for i in range(len(self.render_dict['topMenu_list'])):
-			if self.render_dict['topMenu_list'][i].url=='catalog':
-				self.render_dict['topMenu_list'][i].active=True
 	#---------------------------------------
 	#Ф-я для задания параметров для страниц которые показывают категорию товара
 	def set_params_catalogCategory(self,filter):
 		self.html='catalog.html'
 		self.render_dict={
-			'topMenu_list':TopMenu.objects.all(),
+			'topMenu_list':self.get_topMenu('catalog'),
 			'category_list':Category.objects.all(),
 		}
 		try:
@@ -61,37 +62,26 @@ class MainView(View):
 					self.render_dict['category_list'][i].active=True
 		except:
 			print 'filter = %s, cannot field'%filter
-		for i in range(len(self.render_dict['topMenu_list'])):
-			if self.render_dict['topMenu_list'][i].url=='catalog':
-				self.render_dict['topMenu_list'][i].active=True
-	def get_topMenu(self,param=None):
-		topMenu=TopMenu.objects.all()
-		if param:
-			for i in range(len(topMenu)):
-				if topMenu[i].url==param:
-					topMenu[i].active=True
-		return topMenu
+	#---------------------------------------
+	#Ф-я для задания параметров Cart корзины
 	def set_params_cart(self,request):
 		self.html='cart.html'
-
 		cart=Cart(request)
 		cart_list=[]
 		for item in Item.objects.filter(cart=cart.cart):
 			product=item.product
 			quantity=item.quantity
-			item_price=item.item_price
 			total_price=item.total_price
 			cart_list.append({
 				"product":product,
 				"quantity":quantity,
-				"item_price":int(item_price),
-				"total_price":total_price,
+				"total_price":int(total_price),
 				})
 		self.render_dict={
-			'topMenu_list':self.get_topMenu(),
-			#'category_list':Category.objects.all(),
+			'topMenu_list':self.get_topMenu('cart'),
 			'cart_list':cart_list,
 			'cart_active':True,
+			'cart_summary':int(cart.summary),
 		}
 
 class HomeView(MainView):
@@ -116,14 +106,14 @@ class CartView(MainView):
 		return render_to_response(self.html,self.render_dict)
 
 def add_to_cart(request):
-	id=request.POST['id']
-	product=Product.objects.get(id=id)
+	product_id=request.POST['id']
+	product=Product.objects.get(id=product_id)
 	cart=Cart(request)
 	cart.add(product,product.price)
 	return HttpResponse()
 def remove_from_cart(request):
-	id=request.POST['id']
-	product=Product.objects.get(id=id)
+	product_id=request.POST['id']
+	product=Product.objects.get(id=product_id)
 	cart=Cart(request)
 	cart.remove(product)
 	return HttpResponse()

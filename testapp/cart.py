@@ -23,7 +23,6 @@ class Cart(object):
 			item=models.Item.objects.get(cart=self.cart,product_id=product.id)
 			item.quantity+=quantity
 			item.save()
-			print item,item.quantity
 		except:
 			item=models.Item(
 				cart=self.cart,
@@ -45,3 +44,9 @@ class Cart(object):
 			item.save()
 		except:
 			pass
+	@property
+	def summary(self):
+		result=0
+		for item in models.Item.objects.filter(cart=self.cart):
+			result+=item.total_price
+		return result
