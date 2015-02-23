@@ -54,7 +54,11 @@
                 id:id,
                 //csrfmiddlewaretoken: csrftoken,
               },
-              success:function(data){console.log('success');console.log(data);},
+              success:function(data){
+                $("#cartrow_"+id).remove();
+                console.log('success');
+                console.log(data);
+              },
               error:function(data){console.log('error');console.log(data);},
       })
     }

@@ -15,9 +15,9 @@
               <td></td>
             </tr>
           </thead>
-          {%for product in cart_list%}
-            <tbody>
-              <tr>
+          <tbody>
+            {%for product in cart_list%}
+              <tr id="cartrow_{{product.product.id}}">
                 <td><img src="{{product.product.url}}" alt="" class="small_img" height="100px"></td>
                 <td><p>{{product.product | lower}}</p></td>
                 <td>
@@ -34,11 +34,12 @@
                 </td>
                 <td><p>{{product.total_price}} р.</p></td>
                 <td>
-                  <a href="/catalog/cart" onClick="remove_from_cart({{product.product.id}})">Убрать</a>
+                  <a  onClick="remove_from_cart({{product.product.id}})">Убрать</a>
                 </td>
               </tr>
-            </tbody>
-          {%endfor%}
+            
+            {%endfor%}
+          </tbody>
         </table>
         <p>Общая стоимость: {{cart_summary}} р.</p>
       {%else%}
