@@ -1,16 +1,20 @@
 {%extends 'menus.html'%}
 
-		{%block content%}
-		<div class="col-xs-12 col-sm-9">
-          <p class="pull-right visible-xs">
-            <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
-          </p>
-          <div class="jumbotron">
-            <h1>{{product.name}}</h1>
-            <img src="{{product.url}}" alt="" >
-            <p>{{product.description}}</p>
-            <p>Стоимость: {{product.price}} р.</p>
-             <p><a class="btn btn-default" onClick="add_to_cart({{product.id}})" role="button">В корзину &raquo;</a></p>
-          </div>
-          
-        {%endblock%}
+{%block content%}
+  <div class="col-xs-12 col-sm-9">
+    <p class="pull-right visible-xs">
+    <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
+   </p>
+    <div class="jumbotron">
+      <h1>{{product.name}}</h1>
+      <img src="{{product.url}}" alt="" >
+      <p>{{product.description}}</p>
+      <p>Стоимость: {{product.price}} р.</p>
+      <p>
+        <a class="btn btn-default" onClick="add_to_cart({{product.id}})" role="button">
+          В корзину &raquo;
+        </a>
+      </p>
+    </div><!--/.jumbotron-->  
+  </div><!--/.col-xs-12.col-sm-9-->      
+{%endblock%}

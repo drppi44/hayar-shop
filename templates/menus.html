@@ -9,16 +9,26 @@
               </li>
           {%endfor%}
         </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li {%if cart_active%} class="active" {%endif%}><a href="/catalog/cart">Корзина <span class="sr-only">(current)</span></a></li>
-            </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li {%if cart_active%} class="active" {%endif%}>
+            <a href="/catalog/cart">Корзина <span class="sr-only">(current)</span></a>
+          </li>
+        </ul>
 {%endblock%}
 
 {%block side_menu%}
-	<div class="list-group">
+  {%if category_list%}
+    <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
+    	<div class="list-group">
         <a href="/catalog" class="list-group-item">Все изделия</a>
         {%for category in category_list%}
-             <a href="/catalog/{{category.url}}" class="list-group-item{%if category.active%} active {%endif%}">{{category}}</a>
+          <a 
+            href="/catalog/{{category.url}}" 
+            class="list-group-item{%if category.active%} active {%endif%}">
+            {{category}}
+          </a>
         {%endfor%}
-    </div>
+      </div>
+    </div><!--/.sidebar-offcanvas-->
+  {%endif%}
 {%endblock%}

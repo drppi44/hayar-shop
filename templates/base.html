@@ -58,6 +58,24 @@
               error:function(data){console.log('error');console.log(data);},
       })
     }
+    function update_cart_item(id){
+      value=$("#product_"+id).val();
+      s="#product_"+id
+      console.log(s);
+      console.log(value);
+      $.ajax({
+              url:'/ajax/updatecartitem/',
+              type:"POST",
+              data:{
+                id:id,
+                value:value,
+                //csrfmiddlewaretoken: csrftoken,
+              },
+              success:function(data){console.log('success');console.log(data);},
+              error:function(data){console.log('error');console.log(data);},
+      })
+
+    }
   </script>
 </head>
 <body>
@@ -83,15 +101,11 @@
 
   <div class="container">
     <div class="row row-offcanvas row-offcanvas-right">
-            {%block content%}
-              
-            {%endblock%}      
-      </div><!--/.col-xs-12.col-sm-9-->
-
-      <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
-      {%block side_menu%}
-      {%endblock%}
-      </div><!--/.sidebar-offcanvas-->
+        {%block content%}
+        {%endblock%}      
+      
+        {%block side_menu%}
+        {%endblock%}
     </div><!--/row-->
   </div>
     

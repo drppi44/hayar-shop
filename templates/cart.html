@@ -1,32 +1,48 @@
 {%extends 'menus.html'%}
 
-    {%block content%}
-    <div class="col-xs-12 col-sm-9">
-          <p class="pull-right visible-xs">
-            <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
-          </p>
-          <div class="jumbotron">
-            <table border="1" class="cart_table">
-              <tr>
+{%block content%}
+  <div class="col-xs-12 col-sm-12">
+
+    <div class="jumbotron">
+      {%if cart_list%}
+        <table border="1" class="cart_table" width="100%">
+          <thead>
+            <tr>
               <td><p>Фотография</p></td>
               <td><p>Название</p></td>
               <td><p>Количество</p></td>
               <td><p>Цена</p></td>
               <td></td>
+            </tr>
+          </thead>
+          {%for product in cart_list%}
+            <tbody>
+              <tr>
+                <td><img src="{{product.product.url}}" alt="" class="small_img" height="100px"></td>
+                <td><p>{{product.product | lower}}</p></td>
+                <td>
+                  <form onSubmit="update_cart_item({{product.product.id}});return false;">
+                    <input 
+                      type="number"
+                      size="3" 
+                      maxlength="3"
+                      min="1" max="100"                                 
+                      id="product_{{product.product.id}}"
+                      value="{{product.quantity}}">  
+                    <input type="submit" value="Обновить">
+                  </form>
+                </td>
+                <td><p>{{product.total_price}} р.</p></td>
+                <td>
+                  <a href="/catalog/cart" onClick="remove_from_cart({{product.product.id}})">Убрать</a>
+                </td>
               </tr>
-              {%for product in cart_list%}
-               <tr>
-                  <td><img src="{{product.product.url}}" alt="" class="small_img" height="100px"></td>
-                  <td><p>{{product.product | lower}}</p></td>
-                  <td>
-                     <input type="text" value="{{product.quantity}}">
-                      <a href="" onClick="" onClick="")>Обновить</a>
-                  </td>
-                  <td><p>{{product.item_price}} р.</p></td>
-                  <td><a href="/catalog/cart" onClick="remove_from_cart({{product.product.id}})">Убрать</a>
-               </tr>
-              {%endfor%}
-            </table>
-          </div>
-          
-    {%endblock%}
+            </tbody>
+          {%endfor%}
+        </table>
+      {%else%}
+        <h2>Корзина пуста</h2>
+      {%endif%}
+    </div>
+  </div><!--/.col-xs-12.col-sm-12-->     
+{%endblock%}

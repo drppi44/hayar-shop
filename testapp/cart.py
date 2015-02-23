@@ -38,3 +38,10 @@ class Cart(object):
 			item.delete()
 		except:
 			pass
+	def update(self,product_id,quantity):
+		try:
+			item=models.Item.objects.get(cart=self.cart,product_id=product_id)
+			item.quantity=quantity;
+			item.save()
+		except:
+			pass

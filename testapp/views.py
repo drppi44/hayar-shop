@@ -17,11 +17,13 @@ class MainView(View):
 		self.html='index.html'
 		self.render_dict={
 			'topMenu_list':TopMenu.objects.all(),
-			'category_list':Category.objects.all(),
+			#'category_list':Category.objects.all(),
 		}
 		for i in range(len(self.render_dict['topMenu_list'])):
 			if self.render_dict['topMenu_list'][i].url=='':
 				self.render_dict['topMenu_list'][i].active=True
+	#------------------
+	#Ф-я для задания параметров для страницы подробного описания выбраного товара
 	def set_params_productDetail(self,id):
 		self.html='item.html'
 		self.render_dict={
@@ -42,6 +44,8 @@ class MainView(View):
 		for i in range(len(self.render_dict['topMenu_list'])):
 			if self.render_dict['topMenu_list'][i].url=='catalog':
 				self.render_dict['topMenu_list'][i].active=True
+	#---------------------------------------
+	#Ф-я для задания параметров для страниц которые показывают категорию товара
 	def set_params_catalogCategory(self,filter):
 		self.html='catalog.html'
 		self.render_dict={
@@ -62,7 +66,6 @@ class MainView(View):
 				self.render_dict['topMenu_list'][i].active=True
 	def get_topMenu(self,param=None):
 		topMenu=TopMenu.objects.all()
-		print 123444444444444444444444444444444
 		if param:
 			for i in range(len(topMenu)):
 				if topMenu[i].url==param:
@@ -86,7 +89,7 @@ class MainView(View):
 				})
 		self.render_dict={
 			'topMenu_list':self.get_topMenu(),
-			'category_list':Category.objects.all(),
+			#'category_list':Category.objects.all(),
 			'cart_list':cart_list,
 			'cart_active':True,
 		}
@@ -119,8 +122,15 @@ def add_to_cart(request):
 	cart.add(product,product.price)
 	return HttpResponse()
 def remove_from_cart(request):
-	product=Product.objects.get(id=request.POST['id'])
+	id=request.POST['id']
+	product=Product.objects.get(id=id)
 	cart=Cart(request)
 	cart.remove(product)
+	return HttpResponse()
+def update_cart_item(request):
+	product_id=request.POST['id']
+	quanity=request.POST['value']
+	cart=Cart(request)
+	cart.update(product_id,quanity)
 	return HttpResponse()
 
